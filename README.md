@@ -1,26 +1,8 @@
-# KnowForge RAG Platform
+#  RAG Platform
 
-这是一个基于 `LangChain + Milvus Hybrid Search + FastAPI` 的多场景 RAG 系统项目。项目目标不是做一个简单聊天页面，而是把企业级 RAG 的主链路、知识库治理、RAG 回归验收、版本管理、数据隔离和流式问答做成可以演示、可以验收的完整工程。
+这是一个基于 `LangChain + Milvus Hybrid Search + FastAPI` 的 RAG 系统项目。项目目标不是做一个简单聊天页面，而是把企业级 RAG 的主链路、知识库治理、RAG 回归验收、版本管理、数据隔离和流式问答做成可以演示、可以验收的完整工程。
 
-工程名统一为 `knowforge-rag-platform`，产品展示名为 **KnowForge RAG Platform**，中文定位是 **企业级多场景 RAG 知识平台**。
-
-当前业务场景已经冻结为 8 个，不再继续新增场景包；后续重点放在资料质量、评测回归和版本治理。
-
-如果是第一次学习或准备演示，建议先看 [系统讲义首页](docs/index.md) 和 [课程大纲](docs/course-outline.md)。前者帮助先抓主线，后者按 01-19 讲串起当前文档和主链路。
-
-如果需要从第 05 章开始按章节跟敲项目代码，进入 [codealong/](codealong/README.md)。该目录和主项目源码分开，按章节提供可运行、可测试的小闭环。
-
-## 学习路径减法
-
-第一次学习不要从所有脚本、所有业务场景和所有状态页卡片开始。建议按三层看：
-
-| 层级 | 范围 | 目标 |
-| --- | --- | --- |
-| 必须掌握 | `app.py`、`qa_core/api`、`qa_core/application`、`qa_core/pipeline`、`qa_core/retrieval`、`qa_core/prompts`、`qa_core/indexing` | 跑通并讲清楚 RAG 主链路 |
-| 验收掌握 | `scripts/rebuild_kb_version.py`、`scripts/check_project_guardrails.py`、`scripts/evaluate_core_chain.py`、`scripts/quality/check_evaluation_gate.py`、`scripts/api_e2e_smoke.py`、`scripts/acceptance_smoke.py` | 证明系统可交付 |
-| 了解即可 | 企业资料治理、本地 Bad Case 沉淀、LangSmith 可选观测、overlay 激活、OCR 提升、性能检查等专题 | 汇报追问或二次扩展时再讲 |
-
-状态页也按这个原则做了减法：聚焦 V1 基础治理工作台，只展示并操作知识库版本、入库质量报告、回归报告、治理摘要和低质量反馈入口；Trace 详情可以接入 LangSmith，本地质量闭环以评测报告、`eval_sets/` 和 Gate 脚本为主。
+工程名统一为 `rag-platform`，产品展示名为 **RAG Platform**，中文定位是 **RAG 知识平台**。
 
 ## 1. 项目定位
 
@@ -37,29 +19,8 @@
 
 一句话介绍：
 
-> 基于 LangChain 和 Milvus Hybrid Search 构建的 KnowForge RAG Platform，支持 FAQ 直出、文档问答、知识库多版本、数据隔离、流式输出、入库质量检查和 RAG 回归验收。
-
-## 2. 业务场景
-
-| 场景 ID | 业务背景 | source 数 | FAQ | 文档 | 简历包装 |
-| --- | --- | ---: | ---: | ---: | --- |
-| `enterprise_knowledge` | HR、IT、财务制度 | 3 | 8 | 11 | 企业内部知识库智能问答平台 |
-| `saas_support` | 账号、计费、开放集成 | 3 | 6 | 11 | SaaS 客服知识库智能助手 |
-| `equipment_ops` | 巡检、告警、安全规范 | 3 | 6 | 11 | 制造业设备运维知识助手 |
-| `compliance_qa` | 合同、审计、隐私保护 | 3 | 6 | 11 | 企业合规制度智能问答系统 |
-| `cross_border_risk` | 海关、制裁、信用证、物流、单证 | 5 | 11 | 15 | 跨境贸易风控 RAG 知识问答平台 |
-| `tender_contract_risk` | 招投标、合同、交付、验收、履约风险 | 5 | 11 | 15 | 招投标合规与合同履约 RAG 风控平台 |
-| `insurance_claims` | 保单、理赔材料、责任、除外、赔付 | 5 | 10 | 15 | 保险理赔材料审核与 RAG 知识问答助手 |
-| `engineering_project_qa` | 图纸、规范、进度、质量、安全资料 | 5 | 11 | 15 | 工程项目资料与施工规范 RAG 问答助手 |
-
-更推荐在简历和汇报中主推后四个差异化场景：
-
-- 跨境贸易风控：适合讲海关申报、制裁筛查、信用证和单证一致性；
-- 招投标合同履约：适合讲合同风险、交付验收和付款边界；
-- 保险理赔审核：适合讲材料审核、责任认定和赔付口径控制；
-- 工程项目资料问答：适合讲多文档、多版本、图纸/规范冲突和标准规范检索。
-
-## 3. 核心功能
+> 基于 LangChain 和 Milvus Hybrid Search 构建的 RAG Platform，支持 FAQ 直出、文档问答、知识库多版本、数据隔离、流式输出、入库质量检查和 RAG 回归验收。
+## 2. 核心功能
 
 | 能力 | 当前实现 |
 | --- | --- |
@@ -68,7 +29,7 @@
 | FAQ 直出 | 高置信 FAQ 直接返回标准答案，低置信进入文档 RAG |
 | 文档 RAG | LangChain loader/splitter + parent-child chunk + rerank |
 | 表格资料 | CSV/Excel 按表头、工作表、行号和单元格键值转换为行级 Document；表格类问题会优先保留表格行上下文 |
-| 多格式样例 | 8 个冻结场景都包含 Markdown、CSV、XLSX、DOCX、PPTX、PDF，便于直接验证多格式入库 |
+| 多格式样例 | 包含 Markdown、CSV、XLSX、DOCX、PPTX、PDF，便于直接验证多格式入库 |
 | 离线 OCR | PaddleOCR + PyMuPDF 生成待复核 Markdown 和 OCR 报告；已复核 Markdown 通过提升脚本进入资料目录，再走版本重建 |
 | 意图识别 | FAQ、知识咨询、追问、越界、客服等意图识别 |
 | source 推断 | 不手选分类时，根据问题自动推断 source |
@@ -89,7 +50,7 @@
 | Bad Case 闭环 | 本地评测报告 + `extract_bad_cases_from_report.py` + `eval_sets/`，人工确认后进入回归评测；LangSmith 可选承接 Trace 和协作标注 |
 | 企业仿真数据包 | `data_packs/enterprise_realistic_pack/` 提供 clean overlay 和 dirty samples，用于拉近样例数据与真实企业资料现场的距离 |
 
-## 4. 技术架构
+## 3. 技术架构
 
 | 层级 | 方案 |
 | --- | --- |
